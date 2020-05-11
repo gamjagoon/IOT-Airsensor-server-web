@@ -11,6 +11,7 @@ logs
 .vscode/
 node_modules
 bower_components
+*.db
 
 *.sublime*
 
