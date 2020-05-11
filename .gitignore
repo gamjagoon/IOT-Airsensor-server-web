@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/react
 # Edit at https://www.gitignore.io/?templates=react
 
+pmdata.db
+
 ### react ###
 .DS_*
 *.log
@@ -11,8 +13,7 @@ logs
 .vscode/
 node_modules
 bower_components
-pmdata.db
-
+db/*.sqlite3
 *.sublime*
 
 psd
