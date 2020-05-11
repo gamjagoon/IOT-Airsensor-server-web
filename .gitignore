@@ -11,7 +11,7 @@ logs
 .vscode/
 node_modules
 bower_components
-*.db
+pmdata.db
 
 *.sublime*
 
