@@ -1,8 +1,8 @@
 #!/usr/bin/python -u
 # coding=utf-8
 from __future__ import print_function
-import serial, struct, sys, time, json, subprocess
-
+import serial, struct, sys, time , subprocess
+import dbconfig as db
 DEBUG = 0
 CMD_MODE = 2
 CMD_QUERY_DATA = 4
@@ -14,11 +14,7 @@ MODE_ACTIVE = 0
 MODE_QUERY = 1
 PERIOD_CONTINUOUS = 0
 
-JSON_FILE = '/home/pi/air/src/contents/pm_data/aqi.json'
-
-MQTT_HOST = ''
-MQTT_TOPIC = '/weather/particulatematter'
-
+DATAPATH = "/home/pi/IOT-Airsenser-server-web/LCD/tmp.txt"
 ser = serial.Serial()
 ser.port = "/dev/ttyUSB0"
 ser.baudrate = 9600
@@ -27,6 +23,10 @@ ser.open()
 ser.flushInput()
 
 byte, data = 0, ""
+
+def savedata(values):
+    with open(DATAPATH, "w+") as F:
+        F.write(str(values[1])+" "+str(values[0])+" "+time.strftime("%Y.%m.%d %H:%M"))
 
 def dump(d, prefix=''):
     print(prefix + ' '.join(x.encode('hex') for x in d))
@@ -99,48 +99,32 @@ def cmd_set_id(id):
     ser.write(construct_command(CMD_DEVICE_ID, [0]*10+[id_l, id_h]))
     read_response()
 
-def pub_mqtt(jsonrow):
-    cmd = ['mosquitto_pub', '-h', MQTT_HOST, '-t', MQTT_TOPIC, '-s']
-    print('Publishing using:', cmd)
-    with subprocess.Popen(cmd, shell=False, bufsize=0, stdin=subprocess.PIPE).stdin as f:
-        json.dump(jsonrow, f)
-
-
 if __name__ == "__main__":
     cmd_set_sleep(0)
     cmd_firmware_ver()
     cmd_set_working_period(PERIOD_CONTINUOUS)
     cmd_set_mode(MODE_QUERY);
+    eval_values = [0,0];
     while True:
         cmd_set_sleep(0)
         for t in range(15):
             values = cmd_query_data();
+            eval_values[0] += values[0];
+            eval_values[1] += values[1];
             if values is not None and len(values) == 2:
               print("PM2.5: ", values[0], ", PM10: ", values[1])
               time.sleep(2)
-
+        eval_values = list(map(lambda x : x / 15 , eval_values))
         # open stored data
-        try:
-            with open(JSON_FILE) as json_data:
-                data = json.load(json_data)
-        except IOError as e:
-            data = []
-
-        # check if length is more than 100 and delete first element
-        if len(data) > 100:
-            data.pop(0)
+        conn = db.conn_db('pmdata.db')
 
         # append new values
-        jsonrow = {'pm25': values[0], 'pm10': values[1], 'time': time.strftime("%d.%m.%Y %H:%M:%S")}
-        data.append(jsonrow)
+        jsonrow = {'pm25': eval_values[0], 'pm10': eval_values[1], 'time': time.strftime("%Y.%m.%d %H:%M")}
+        savedata(eval_values)
+        db.insert_db(conn, **jsonrow)
+        conn.close()
 
-        # save it
-        with open(JSON_FILE, 'w') as outfile:
-            json.dump(data, outfile)
-
-        if MQTT_HOST != '':
-            pub_mqtt(jsonrow)
             
         print("Going to sleep for 1 min...")
         cmd_set_sleep(1)
-        time.sleep(60)
+        time.sleep(30)
