@@ -15,7 +15,7 @@ node_modules
 bower_components
 db/*.sqlite3
 *.sublime*
-
+tmp.*
 psd
 thumb
 sketch
