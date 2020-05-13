@@ -28,17 +28,15 @@ export default function Gridset() {
   return (
     <div>
       <Divider className={classes.divider} />
-      <Grid container spacing={2}>
-        <Grid item sm={6} alignItems='baseline'>
-          <Paper className={classes.paper}>
-            <Curdata />
-          </Paper>
-        </Grid>
-        <Grid item sm={6}>
-          <Paper className={classes.paper}>
-            <Weakdata />
-          </Paper>
-        </Grid>
+      <Grid item sm={12} alignItems="center">
+        <Paper className={classes.paper}>
+          <Curdata />
+        </Paper>
+      </Grid>
+      <Grid item sm={12} alignItems="center">
+        <Paper className={classes.paper}>
+          <Weakdata />
+        </Paper>
       </Grid>
     </div>
   );

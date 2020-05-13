@@ -1,7 +1,7 @@
 #!/usr/bin/python -u
 # coding=utf-8
 from __future__ import print_function
-import serial, struct, sys, time , subprocess
+import serial, struct, sys, time , subprocess,json
 import dbconfig as db
 DEBUG = 0
 CMD_MODE = 2
@@ -13,7 +13,7 @@ CMD_WORKING_PERIOD = 8
 MODE_ACTIVE = 0
 MODE_QUERY = 1
 PERIOD_CONTINUOUS = 0
-
+JSON_FILE = '/home/pi/IOT-Airsenser-server-web/src/contents/pm_data/aqi.json'
 DATAPATH = "/home/pi/IOT-Airsenser-server-web/LCD/tmp.txt"
 ser = serial.Serial()
 ser.port = "/dev/ttyUSB0"
@@ -117,14 +117,21 @@ if __name__ == "__main__":
         eval_values = list(map(lambda x : x / 15 , eval_values))
         # open stored data
         conn = db.conn_db('pmdata.db')
-
+        try:
+            with open(JSON_FILE) as json_data:
+                data = json.load(json_data)
+        except IOError as e:
+            data = []
         # append new values
         jsonrow = {'pm25': eval_values[0], 'pm10': eval_values[1], 'time': time.strftime("%Y.%m.%d %H:%M")}
         savedata(eval_values)
         db.insert_db(conn, **jsonrow)
         conn.close()
-
-            
+        while len(data) > 0:
+            data.pop();
+        data.append(jsonrow)
+        with open(JSON_FILE, 'w') as outfile:
+            json.dump(data, outfile)
         print("Going to sleep for 1 min...")
         cmd_set_sleep(1)
         time.sleep(30)

@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
 const Head = () => {
 	const classes = useStyles();
 	return (
-    <Grid className={classes.paper}>
-      <Typography variant="h3" gutterBottom>
+    <Grid className={classes.paper} elementType>
+      <Typography variant="h4" alignItems="center">
         센서및 시스템 5조
       </Typography>
     </Grid>

@@ -19,6 +19,12 @@ tmp.*
 psd
 thumb
 sketch
+build
+*.txt
+aqi.json
+
 
 # End of https://www.gitignore.io/api/react
 
+src/contents/pm_data/aqi.json
+src/contents/pm_data/logo.png
