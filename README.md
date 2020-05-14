@@ -1,13 +1,13 @@
-Fineair senser and serve using website
+Fine-air senser and serve using website
 =============
 ## summary
 ### enlish
 ### 1. Hardware
 > * main server : raspberryPi 3B+
-> * fineair sensor : SDS011 
+> * fine-air sensor : SDS011 
 ### 2. Software
-  * frontend : react
-  * backend 
+  * front-end : react
+  * back-end 
     - server : nodejs
     - sensing : python script
     - DB : sqlite3
@@ -17,8 +17,8 @@ Fineair senser and serve using website
 > * 메인 서버 : raspberryPi 3B+
 > * 미세먼지 센서 : SDS011 
 ### 2. 소프트웨어
-  * 프론트앤드 : react
-  * 백앤드
+  * 프론트-앤드 : react
+  * 백-앤드
     - 서버 : nodejs
     - 센서제어 : python script
     - 데이터 베이스 : sqlite3
