@@ -3,8 +3,8 @@ Fine-air senser and serve using website
 ## summary
 ### enlish
 ### 1. Hardware
-> * main server : raspberryPi 3B+
-> * fine-air sensor : SDS011 
+ * main server : raspberryPi 3B+
+ * fine-air sensor : SDS011 
 ### 2. Software
   * front-end : react
   * back-end 
@@ -14,8 +14,8 @@ Fine-air senser and serve using website
     - data processing : python3 - matplotlib 
 ### Korean
 ### 1. 하드웨어
-> * 메인 서버 : raspberryPi 3B+
-> * 미세먼지 센서 : SDS011 
+ * 메인 서버 : raspberryPi 3B+
+ * 미세먼지 센서 : SDS011 
 ### 2. 소프트웨어
   * 프론트-앤드 : react
   * 백-앤드
