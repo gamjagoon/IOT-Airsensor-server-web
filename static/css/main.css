@@ -1,0 +1,103 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #bccaf4;
+  color: aliceblue;
+  box-sizing: border-box;
+  
+}
+
+.header div.first{
+  font-weight: 600;
+  font-size: 2rem;
+  padding-inline-start: 5%;
+  border-bottom: 1px solid aliceblue;
+}
+
+.header div.second{
+  padding-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  padding-inline-start: 5%;
+}
+
+#middle {
+  color: #1e3783;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color:rgb(218, 250, 251);
+  padding-top: 3rem;
+  padding-inline-end: 5%;
+  padding-bottom: 3rem;
+  text-align: right;
+}
+
+#body{
+  display: grid;
+  background-color:rgb(218, 250, 251);
+  background-repeat: no-repeat;
+  overflow:hidden;
+  grid-template-columns: repeat(auto-fit,minmax(400px,auto));
+  column-gap: 20px;
+  min-height: 600px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.box{
+  width: 100%;
+  min-height: 600px;
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.box > .head {
+  text-align: left;
+  padding-left: 5%;
+  padding-top: 5%;
+  font-weight: 600;
+  font-size: 1.7rem;
+}
+
+.box > h1{
+  font-size: 3rem;
+  padding-top: 10%;
+}
+
+.box > img{
+  padding: 0%;
+}
+
+.box > .head:after {
+  content: "";
+  display: block;
+  margin-top: 1rem;
+  width: 90%;
+  border-bottom: 1px solid black;
+}
+
+.box > .data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 10%;
+}
+
+.box > .data-grid > span.f1{
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.box > .data-grid > span.data{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.box > .date {
+  font-size: 1.2rem;
+  font-weight: lighter;
+}
+

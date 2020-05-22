@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="static/css/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <title>미세먼지 계측</title>
+</head>
+<body>
+  <section class="header">
+    <div class="first">센서 및 시스템 5조</div>
+    <div class="second">미세먼지 측정</div>
+  </section>
+  <div id="middle">
+    <div class="grid1">
+    </div>
+    <div class="grid1">
+      <img id="img0" src = "static/img/0.jpg" ;
+      alt = "test" title="image" width="auto" height="100rem">
+    </div>
+  </div>
+  <div id="body">
+    <div calss="section">
+      <div class="box">
+        <p class="head">미세먼지 농도</p>
+        <h1> <%= data.aqi %> </h1>
+        <img src = 'static/img/<%=data.iconid %>.png' ;
+      alt = "test" title="image" width="auto" height="100rem">
+        <div class="data-grid">
+          <span class="f1">pm10</span>
+          <span class="data"><%= curdata.pm10.toFixed(3) %> µg/m³</span>
+          <span class="f1">pm2.5</span>
+          <span class="data"><%= curdata.pm25.toFixed(3) %>  µg/m³</span>
+        </div>
+        <span class="date">현재 시간 <%= curdata.time %></span>
+      </div>
+    </div>
+    <div calss="section">
+      <div class="box">
+        <p class="head">시간별 대기 현황</p>
+        <canvas id="hourchart" style="height:60vh; width:40vw"></canvas>
+        <script>
+          var ctx = document.getElementById('hourchart').getContext('2d');
+          var hourchart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: <%-JSON.stringify(hourdatas.time) %>,
+                  datasets: [{
+                      label: 'pm10',
+                      fill: false,
+                      backgroundColor: 'rgba(255,0,0,0.3)',
+                      borderColor: 'rgba(255,0,0,0.3)',
+                      data: <%-JSON.stringify(hourdatas.pm10) %>,
+                  },
+                  {
+                      label: 'pm25',
+                      fill: false,
+                      backgroundColor: 'rgba(0,0,255,0.3)',
+                      borderColor: 'rgba(0,0,255,0.3)',
+                      data: <%-JSON.stringify(hourdatas.pm25) %>,
+                  },
+                  ]
+              },
+              options: {
+                  responsive: true,
+              tooltips: {
+                mode: 'index',
+                intersect: false,
+              },
+              hover: {
+                mode: 'nearest',
+                intersect: true
+              },
+              scales: {
+                xAxes: [{
+                  display: true,
+                }],
+                yAxes: [{
+                  display: true,
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'µg/m³'
+                  },
+                  ticks: {
+                    min: 0,
+                    // forces step size to be 5 units
+                    stepSize: 100
+                  }
+                }]
+              }
+              }
+          });
+          </script>
+      </div>
+    </div>
+    <div calss="section">
+      <div class="box">
+        <p class="head">일주일 대기 현황</p>
+        <canvas id="myChart" style="height:60vh; width:40vw"></canvas>
+    <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var mychart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+                labels: <%-JSON.stringify(weakdata.days) %>,
+			datasets: [{
+				label: 'Data',
+                backgroundColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)","rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)","rgba(201, 203, 207, 0.2)"],
+                borderColor:["rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)","rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)","rgb(201, 203, 207)"],
+                borderWidth:3,
+				data: <%-JSON.stringify(weakdata.aqis) %>
+			}],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    display: true,
+                    fontStyle:'bold',
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        min: 0,
+                        stepSize: 20
+                    }
+                }]
+            }
+            
+        }
+    });
+    </script>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

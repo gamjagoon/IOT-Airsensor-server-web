@@ -13,7 +13,6 @@ CMD_WORKING_PERIOD = 8
 MODE_ACTIVE = 0
 MODE_QUERY = 1
 PERIOD_CONTINUOUS = 0
-JSON_FILE = '/home/pi/IOT-Airsenser-server-web/src/contents/pm_data/aqi.json'
 DATAPATH = "/home/pi/IOT-Airsenser-server-web/LCD/tmp.txt"
 ser = serial.Serial()
 ser.port = "/dev/ttyUSB0"
@@ -117,11 +116,6 @@ if __name__ == "__main__":
         eval_values = list(map(lambda x : x / 15 , eval_values))
         # open stored data
         conn = db.conn_db('pmdata.db')
-        try:
-            with open(JSON_FILE) as json_data:
-                data = json.load(json_data)
-        except IOError as e:
-            data = []
         # append new values
         jsonrow = {'pm25': eval_values[0], 'pm10': eval_values[1], 'time': time.strftime("%Y.%m.%d %H:%M")}
         savedata(eval_values)
