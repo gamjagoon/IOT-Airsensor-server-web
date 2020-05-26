@@ -22,7 +22,7 @@ sketch
 build
 *.txt
 aqi.json
-
+.vscode
 
 # End of https://www.gitignore.io/api/react
 

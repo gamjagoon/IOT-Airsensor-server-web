@@ -114,18 +114,11 @@ if __name__ == "__main__":
               print("PM2.5: ", values[0], ", PM10: ", values[1])
               time.sleep(2)
         eval_values = list(map(lambda x : x / 15 , eval_values))
-        # open stored data
         conn = db.conn_db('pmdata.db')
-        # append new values
         jsonrow = {'pm25': eval_values[0], 'pm10': eval_values[1], 'time': time.strftime("%Y.%m.%d %H:%M")}
         savedata(eval_values)
         db.insert_db(conn, **jsonrow)
         conn.close()
-        while len(data) > 0:
-            data.pop();
-        data.append(jsonrow)
-        with open(JSON_FILE, 'w') as outfile:
-            json.dump(data, outfile)
         print("Going to sleep for 1 min...")
         cmd_set_sleep(1)
         time.sleep(30)
