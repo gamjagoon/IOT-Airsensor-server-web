@@ -48,7 +48,6 @@ def process_data(d):
     pm10 = r[1]/10.0
     checksum = sum(ord(v) for v in d[2:8])%256
     return [pm25, pm10]
-    #print("PM 2.5: {} μg/m^3  PM 10: {} μg/m^3 CRC={}".format(pm25, pm10, "OK" if (checksum==r[2] and r[3]==0xab) else "NOK"))
 
 def process_version(d):
     r = struct.unpack('<BBBHBB', d[3:])
@@ -111,7 +110,6 @@ if __name__ == "__main__":
             eval_values[0] += values[0];
             eval_values[1] += values[1];
             if values is not None and len(values) == 2:
-              print("PM2.5: ", values[0], ", PM10: ", values[1])
               time.sleep(2)
         eval_values = list(map(lambda x : x / 15 , eval_values))
         conn = db.conn_db('pmdata.db')
@@ -119,6 +117,5 @@ if __name__ == "__main__":
         savedata(eval_values)
         db.insert_db(conn, **jsonrow)
         conn.close()
-        print("Going to sleep for 1 min...")
         cmd_set_sleep(1)
         time.sleep(30)
