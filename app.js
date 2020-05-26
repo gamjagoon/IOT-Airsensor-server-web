@@ -7,10 +7,10 @@ const aqi = require('./lib/aqi');
 const app = express();
 app.use('/static',express.static(path.join(__dirname,'static')));
 app.set('view engine','ejs');
-const rows = sql.prepare(`SELECT * FROM data order by rowid desc limit 60`).all();
-const rows2 = sql.prepare(`SELECT * FROM data where time like '% %:00' order by rowid desc limit 196`).all();
 
 app.get('/',(req, res)=>{
+  const rows = sql.prepare(`SELECT * FROM data order by rowid desc limit 60`).all();
+  const rows2 = sql.prepare(`SELECT * FROM data where time like '% %:00' order by rowid desc limit 196`).all();
   const curdata = rows[0];
   let aqi_id = aqi.Get(curdata);
   let pm10 = new Array(60);
