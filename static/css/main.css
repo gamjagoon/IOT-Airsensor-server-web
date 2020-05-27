@@ -81,7 +81,7 @@ body{
 
 .box > .data-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   padding-left: 20%;
   padding-right: 20%;
   padding-top: 10%;

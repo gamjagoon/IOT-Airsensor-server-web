@@ -16,10 +16,12 @@ app.get('/',(req, res)=>{
   let pm10 = new Array(60);
   let pm25 = new Array(60);
   let time = new Array(60);
+  let j = 0;
   for (let i = 59; i >= 0; i--) {
-    pm10[i] = rows[i].pm10.toFixed(3);
-    pm25[i] = rows[i].pm25.toFixed(3);
-    time[i] = rows[i].time.slice(11,16);
+    pm10[j] = rows[i].pm10.toFixed(3);
+    pm25[j] = rows[i].pm25.toFixed(3);
+    time[j] = rows[i].time.slice(11,16);
+    j++
   }
   let days = new Array(7);
   let aqis = new Array(7);
