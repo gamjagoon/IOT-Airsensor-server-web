@@ -1,4 +1,4 @@
-Fine-air senser and serve using website
+Fine-air sensor and serve using website
 =============
 # summary
 ## English
