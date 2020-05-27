@@ -42,7 +42,7 @@ body{
   overflow:hidden;
   grid-template-columns: repeat(auto-fit,minmax(400px,auto));
   column-gap: 20px;
-  min-height: 600px;
+  min-height: 800px;
   padding-left: 20px;
   padding-right: 20px;
 }
