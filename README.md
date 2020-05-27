@@ -1,7 +1,7 @@
 Fine-air senser and serve using website
 =============
 # summary
-## enlish
+## English
 ### 1. Hardware
  * main server : raspberryPi 3B+
  * fine-air sensor : SDS011 
