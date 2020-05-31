@@ -44,6 +44,10 @@ app.get('/',(req, res)=>{
   });
 });
 
+app.get('/tem',(req, res)=>{
+  
+});
+
 
 app.listen(80, ()=>{
 	console.log("start server");

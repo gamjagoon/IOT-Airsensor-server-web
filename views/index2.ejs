@@ -6,40 +6,29 @@
   <meta http-equiv="refresh" content="60">
   <link rel="stylesheet" href="static/css/main.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <title>미세먼지 계측</title>
+  <title>온습도 계측</title>
 </head>
 <body>
   <section class="header">
     <div class="first">센서 및 시스템 5조</div>
     <div class="second">미세먼지 측정</div>
   </section>
-  <div id="middle">
-    <div class="grid1">
-    </div>
-    <div class="grid1">
-      <img id="img0" src = "static/img/0.jpg" ;
-      alt = "test" title="image" width="auto" height="100rem">
-    </div>
-  </div>
   <div id="body">
     <div calss="section">
       <div class="box">
-        <p class="head">미세먼지 농도</p>
-        <h1> <%= data.aqi %> </h1>
-        <img src = 'static/img/<%=data.iconid %>.png' ;
-      alt = "test" title="image" width="auto" height="100rem">
+        <p class="head">현재 온·습도</p>
         <div class="data-grid">
-          <span class="f1">pm10</span>
-          <span class="data"><%= curdata.pm10.toFixed(3) %> µg/m³</span>
-          <span class="f1">pm2.5</span>
-          <span class="data"><%= curdata.pm25.toFixed(3) %>  µg/m³</span>
+          <img src = 'static/img/water.png' alt = "test" title="image" width="auto" height="5rem">
+          <span class="data">76%</span>
+          <span class="f1">  </span>
+          <span class="data">19℃</span>
         </div>
         <span class="date"><%= curdata.time %> 기준</span>
       </div>
     </div>
     <div calss="section">
       <div class="box">
-        <p class="head">시간별 대기 현황</p>
+        <p class="head">시간별 온·습도 현황</p>
         <canvas id="hourchart" style="height:60vh; width:40vw"></canvas>
         <script>
           var ctx = document.getElementById('hourchart').getContext('2d');
@@ -85,7 +74,6 @@
                   },
                   ticks: {
                     min: 0,
-                    // forces step size to be 5 units
                     stepSize: 100
                   }
                 }]
@@ -97,7 +85,7 @@
     </div>
     <div calss="section">
       <div class="box">
-        <p class="head">일주일 대기 현황</p>
+        <p class="head">일주일 온·습도 현황</p>
         <canvas id="myChart" style="height:60vh; width:40vw"></canvas>
     <script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -134,6 +122,5 @@
       </div>
     </div>
   </div>
-
 </body>
 </html>
