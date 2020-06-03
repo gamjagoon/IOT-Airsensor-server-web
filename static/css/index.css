@@ -1,3 +1,4 @@
+a { text-decoration:none } 
 body{
   margin: 0;
   padding: 0;
@@ -13,7 +14,7 @@ body{
 .header div.first{
   font-weight: 600;
   font-size: 2rem;
-  padding-inline-start: 5%;
+  padding-inline-start: 3%;
   border-bottom: 1px solid aliceblue;
 }
 
@@ -21,8 +22,35 @@ body{
   padding-top: 1rem;
   font-size: 1.5rem;
   font-weight: 400;
-  padding-inline-start: 5%;
+  padding-inline-start: 3%;
 }
+
+#grid-manu {
+  padding-top: 1%;
+  background-color:rgb(218, 250, 251);
+  grid-template-columns: 1fr 1fr 5fr;
+  display: grid;
+  padding-left: 2%;
+}
+
+#grid-manu .box01 {
+  background-color: #bccaf4;
+  margin: 10px;
+  text-align: center;
+  color:black;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+#grid-manu .box02 {
+  background-color: #e5e8f1;
+  margin: 10px;
+  text-align: center;
+  color:black;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
 
 #middle {
   color: #1e3783;

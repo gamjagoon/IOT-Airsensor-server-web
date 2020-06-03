@@ -3,25 +3,26 @@ const path = require('path');
 const sql = require('better-sqlite3')('./pmdata.db',{
   readonly : true
 });
+const humsql = require('better-sqlite3')('./humdata.db',{
+  readonly : true
+});
 const aqi = require('./lib/aqi');
 const app = express();
 app.use('/static',express.static(path.join(__dirname,'static')));
 app.set('view engine','ejs');
 
 app.get('/',(req, res)=>{
-  const rows = sql.prepare(`SELECT * FROM data order by rowid desc limit 60`).all();
+  let rows = sql.prepare(`SELECT * FROM data order by rowid desc limit 60`).all().reverse();
   const rows2 = sql.prepare(`SELECT * FROM data where time like '% %:00' order by rowid desc limit 196`).all();
   const curdata = rows[0];
   let aqi_id = aqi.Get(curdata);
   let pm10 = new Array(60);
   let pm25 = new Array(60);
   let time = new Array(60);
-  let j = 0;
-  for (let i = 59; i >= 0; i--) {
-    pm10[j] = rows[i].pm10.toFixed(3);
-    pm25[j] = rows[i].pm25.toFixed(3);
-    time[j] = rows[i].time.slice(11,16);
-    j++
+  for (let i = 0; i < 60; i++) {
+    pm10[i] = rows[i].pm10.toFixed(3);
+    pm25[i] = rows[i].pm25.toFixed(3);
+    time[i] = rows[i].time.slice(11,16);
   }
   let days = new Array(7);
   let aqis = new Array(7);
@@ -45,7 +46,21 @@ app.get('/',(req, res)=>{
 });
 
 app.get('/tem',(req, res)=>{
-  
+  let rows = humsql.prepare(`SELECT * FROM hum order by rowid desc limit 60`).all();
+  const curdata = rows[0];
+  let hum = new Array(60);
+  let tem = new Array(60);
+  let time = new Array(60);
+  rows = rows.reverse();
+  for(let i = 0; i < 60; i++){
+    hum[i] = rows[i].hum.toFixed(3);
+    tem[i] = rows[i].tem.toFixed(3);
+    time[i] = rows[i].time.slice(11,16);
+  }
+  res.render('index2',{
+    curdata,
+    hourdatas:{hum:hum,tem:tem,time:time},
+  });
 });
 
 

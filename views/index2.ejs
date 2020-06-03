@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="60">
-  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/index2.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <title>온습도 계측</title>
 </head>
@@ -13,17 +13,37 @@
     <div class="first">센서 및 시스템 5조</div>
     <div class="second">미세먼지 측정</div>
   </section>
+  <div id="grid-manu">
+    <a href="/">
+      <div class="box01">
+      <span>
+      <img src="../static/img/dust.png" alt="Loading" title="image" width="auto" height="50rem">
+      미세먼지</span>
+      </div>
+    </a>
+    <a href="/tem">
+    <div class="box02">
+      <span>
+      <img src="../static/img/cel.png" alt="Loading" title="image" width="auto" height="50rem">
+      <img src="../static/img/water.png" alt="Loading" title="image" width="auto" height="50rem">온·습도</span>
+    </div>
+    </a>
+  </div>
   <div id="body">
     <div calss="section">
       <div class="box">
         <p class="head">현재 온·습도</p>
         <div class="data-grid">
-          <img src = 'static/img/water.png' alt = "test" title="image" width="auto" height="5rem">
-          <span class="data">76%</span>
-          <span class="f1">  </span>
-          <span class="data">19℃</span>
+          <span >
+            <img src = "../static/img/water.png" alt = "test" title="image" width="auto" height="70rem">
+            <%= curdata.hum %>%
+          </span>
+          <span >
+            <img src = "../static/img/cel.png" alt = "test" title="image" width="auto" height="70rem">
+            <%= curdata.tem%>℃
+          </span>
+          <span class="date"><%= curdata.time%>기준</span>
         </div>
-        <span class="date"><%= curdata.time %> 기준</span>
       </div>
     </div>
     <div calss="section">
@@ -37,18 +57,18 @@
               data: {
                   labels: <%-JSON.stringify(hourdatas.time) %>,
                   datasets: [{
-                      label: 'pm10',
+                      label: 'hum',
                       fill: false,
                       backgroundColor: 'rgba(255,0,0,0.3)',
                       borderColor: 'rgba(255,0,0,0.3)',
-                      data: <%-JSON.stringify(hourdatas.pm10) %>,
+                      data: <%-JSON.stringify(hourdatas.hum) %>,
                   },
                   {
-                      label: 'pm25',
+                      label: 'tem',
                       fill: false,
                       backgroundColor: 'rgba(0,0,255,0.3)',
                       borderColor: 'rgba(0,0,255,0.3)',
-                      data: <%-JSON.stringify(hourdatas.pm25) %>,
+                      data: <%-JSON.stringify(hourdatas.tem) %>,
                   },
                   ]
               },
@@ -70,10 +90,11 @@
                   display: true,
                   scaleLabel: {
                     display: true,
-                    labelString: 'µg/m³'
+                    labelString: '℃/%'
                   },
                   ticks: {
                     min: 0,
+                    // forces step size to be 5 units
                     stepSize: 100
                   }
                 }]
@@ -86,39 +107,6 @@
     <div calss="section">
       <div class="box">
         <p class="head">일주일 온·습도 현황</p>
-        <canvas id="myChart" style="height:60vh; width:40vw"></canvas>
-    <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var mychart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-                labels: <%-JSON.stringify(weakdata.days) %>,
-			datasets: [{
-				label: 'Data',
-                backgroundColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)","rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)","rgba(201, 203, 207, 0.2)"],
-                borderColor:["rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)","rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)","rgb(201, 203, 207)"],
-                borderWidth:3,
-				data: <%-JSON.stringify(weakdata.aqis) %>
-			}],
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    display: true,
-                    fontStyle:'bold',
-                }],
-                yAxes: [{
-                    display: true,
-                    ticks: {
-                        min: 0,
-                        stepSize: 20
-                    }
-                }]
-            }
-            
-        }
-    });
-    </script>
       </div>
     </div>
   </div>
