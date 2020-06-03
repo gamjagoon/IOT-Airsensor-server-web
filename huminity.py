@@ -1,9 +1,13 @@
 import time
 import Adafruit_DHT
 import dbconfig as db
-
+DATAPATH = "/home/pi/IOT-Airsensor-server-web/LCD/tmp2.txt"
 sensor = Adafruit_DHT.DHT11
 pin = 4
+
+def savedata(values):
+    with open(DATAPATH, "w+") as F:
+        F.write(str(values['hum'])+" "+str(values['tem'])+" "+time.strftime("%Y.%m.%d %H:%M"))
 
 def process_data():
     sumh ,sumt = 0.0,0.0
@@ -20,6 +24,7 @@ def process_data():
 def db_insert(hum, tem):
     conn = db.conn_db('humdata.db')
     jsonrow = {'hum': hum, 'tem':tem,'time':time.strftime("%Y.%m.%d %H:%M")}
+    savedata(jsonrow)
     db.insert_hum_db(conn, **jsonrow)
     conn.close()
     print("db insert",hum,tem)
