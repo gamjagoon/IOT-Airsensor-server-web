@@ -14,7 +14,7 @@ app.set('view engine','ejs');
 app.get('/',(req, res)=>{
   let rows = sql.prepare(`SELECT * FROM data order by rowid desc limit 60`).all().reverse();
   const rows2 = sql.prepare(`SELECT * FROM data where time like '% %:00' order by rowid desc limit 196`).all();
-  const curdata = rows[0];
+  const curdata = rows[59];
   let aqi_id = aqi.Get(curdata);
   let pm10 = new Array(60);
   let pm25 = new Array(60);
