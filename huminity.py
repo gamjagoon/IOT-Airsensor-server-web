@@ -18,14 +18,14 @@ def process_data():
     return sumh,sumt
 
 def db_insert(hum, tem):
-    # conn = db.conn_db('hum.db')
-    # jsonrow = {'hum': hum, 'temper':tem,'time':time.strftime("%Y.%m.%d %H:%M")}
-    # db.insert_hum_db(conn, **jsonrow)
-    # conn.close()
+    conn = db.conn_db('humdata.db')
+    jsonrow = {'hum': hum, 'tem':tem,'time':time.strftime("%Y.%m.%d %H:%M")}
+    db.insert_hum_db(conn, **jsonrow)
+    conn.close()
     print("db insert",hum,tem)
 
 if __name__ == "__main__":
     while True:
         hum,tem = process_data()
         db_insert(hum,tem)
-        time.sleep(9.5)
+        time.sleep(9.9)
