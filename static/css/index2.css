@@ -28,7 +28,7 @@ body{
 #navigation-grid {
   padding-top: 1%;
   background-color:rgb(218, 250, 251);
-  grid-template-columns: 1fr 1fr 5fr;
+  grid-template-columns: 15% 15% 3fr 1fr;
   display: grid;
   padding-left: 2%;
 }
@@ -68,7 +68,7 @@ body{
   background-color:rgb(218, 250, 251);
   background-repeat: no-repeat;
   overflow:hidden;
-  grid-template-columns: repeat(auto-fit,minmax(400px,auto));
+  grid-template-columns: repeat(auto-fit,minmax(300px,600px));
   column-gap: 20px;
   min-height: 1000px;
   padding-left: 20px;
@@ -77,7 +77,7 @@ body{
 
 .box{
   width: 100%;
-  min-height: 600px;
+  height: 600px;
   background-color: rgb(255, 255, 255);
   text-align: center;
 }
