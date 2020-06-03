@@ -25,7 +25,7 @@ body{
   padding-inline-start: 3%;
 }
 
-#grid-manu {
+#navigation-grid {
   padding-top: 1%;
   background-color:rgb(218, 250, 251);
   grid-template-columns: 1fr 1fr 5fr;
@@ -33,7 +33,7 @@ body{
   padding-left: 2%;
 }
 
-#grid-manu .box01 {
+#navigation-grid .box01 {
   background-color: #bccaf4;
   margin: 10px;
   text-align: center;
@@ -42,7 +42,7 @@ body{
   font-size: 1.5rem;
 }
 
-#grid-manu .box02 {
+#navigation-grid .box02 {
   background-color: #e5e8f1;
   margin: 10px;
   text-align: center;
