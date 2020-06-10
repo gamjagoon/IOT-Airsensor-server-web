@@ -47,7 +47,6 @@ app.get('/',(req, res)=>{
 
 app.get('/tem',(req, res)=>{
   let rows = humsql.prepare(`SELECT * FROM hum order by rowid desc limit 60`).all();
-  let rows2 = humsql.prepare(`SELECT * FROM hum where time like '% %:00' order by rowid desc limit 196`).all();
   const curdata = rows[0];
   let hum = new Array(60);
   let tem = new Array(60);
@@ -58,23 +57,6 @@ app.get('/tem',(req, res)=>{
     hum[i] = rows[i].hum.toFixed(3);
     tem[i] = rows[i].tem.toFixed(3);
     time[i] = rows[i].time.slice(11,16);
-  }
-  let days = new Array(7);
-  let hums = new Array(7);
-  let tems = new Array(7);
-  let d = 0;
-  let i = 0;
-  while (d < 7) {
-    let T = 0;
-    let H = 0;
-    days[d] = parseInt(rows2[i].time.slice(8,10),10);
-    for (let j = 0; j < 24; j++) {
-      H += rows2[i].tem;
-      T += rows2[i].hum;
-      i++;
-    }
-    hums[d] = parseInt((H/24).toFixed(0));
-    tems[d++] = parseInt((T/24).toFixed(0));
   }
   res.render('index2',{
     curdata,
