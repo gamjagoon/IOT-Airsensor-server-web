@@ -3,6 +3,9 @@ from time import *
 mylcd = I2C_LCD_driver.lcd()
 pm10 = "pm10 "
 pm25 = "pm25 "
+hum = "hum "
+tem = "tem "
+prefix2 = "'C"
 prefix = "ug/m3"
 while 1 :
     f = open('./tmp.txt',mode='r')
