@@ -11,14 +11,14 @@ def savedata(values):
 
 def process_data():
     sumh ,sumt = 0.0,0.0
-    for i in range(25):
+    for i in range(30):
         h,t = Adafruit_DHT.read_retry(sensor, pin)
         print 'huminity : {0} temperature : {1}'.format(h,t)
         sumh += h
         sumt += t
-        time.sleep(2)
-    sumh = round(sumh/25,2)
-    sumt = round(sumt/25,2)
+        time.sleep(1)
+    sumh = round(sumh/30,2)
+    sumt = round(sumt/30,2)
     return sumh,sumt
 
 def db_insert(hum, tem):
@@ -33,4 +33,4 @@ if __name__ == "__main__":
     while True:
         hum,tem = process_data()
         db_insert(hum,tem)
-        time.sleep(9.9)
+        time.sleep(30)
