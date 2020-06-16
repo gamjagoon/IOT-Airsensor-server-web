@@ -17,6 +17,12 @@ func errHandler(err error) {
 	}
 }
 
+var (
+	db,db2 *sql.DB
+	tx, tx2 *sql.Tx
+	stmt, stmt2 *sql.Stmt
+)
+
 func main() {
 	l, err := net.Listen("tcp", ":30122")
 	if nil != err {
@@ -24,20 +30,20 @@ func main() {
 		return
 	}
 	defer l.Close()
-	db, err := sql.Open("sqlite3", "./pmdata.db")
+	db, err = sql.Open("sqlite3", "./pmdata.db")
 	errHandler(err)
 	defer db.Close()
-	db2, err := sql.Open("sqlite3", "./humdata.db")
+	db2, err = sql.Open("sqlite3", "./humdata.db")
 	errHandler(err)
 	defer db2.Close()
-	tx, err := db.Begin()
+	tx, err = db.Begin()
 	errHandler(err)
-	tx2, err := db2.Begin()
+	tx2, err = db2.Begin()
 	errHandler(err)
-	stmt, err := tx.Prepare("insert into data(pm10,pm25,time) values (?,?,?)")
+	stmt, err = tx.Prepare("insert into data(pm10,pm25,time) values (?,?,?)")
 	errHandler(err)
 	defer stmt.Close()
-	stmt2, err := tx2.Prepare("insert into hum(hum,tem,time) values (?,?,?)")
+	stmt2, err = tx2.Prepare("insert into hum(hum,tem,time) values (?,?,?)")
 	errHandler(err)
 	defer stmt2.Close()
 
@@ -48,12 +54,12 @@ func main() {
 			continue
 		}
 
-		go ConnHandler(conn, tx, tx2, stmt, stmt2)
+		go ConnHandler(conn)
 	}
 }
 
 // ConnHandler input db receved data
-func ConnHandler(conn net.Conn, tx *sql.Tx, tx2 *sql.Tx, st *sql.Stmt, st2 *sql.Stmt) {
+func ConnHandler(conn net.Conn) {
 	recvBuf := make([]byte, 256)
 	ok := []byte{'o', 'k'}
 	for {
@@ -73,8 +79,8 @@ func ConnHandler(conn net.Conn, tx *sql.Tx, tx2 *sql.Tx, st *sql.Stmt, st2 *sql.
 			fmt.Println(data)
 			conn.Write(ok)
 			datas := strings.Split(data, " ")
-			st.Exec(datas[0], datas[1], datas[4])
-			st2.Exec(datas[2], datas[3], datas[4])
+			stmt.Exec(datas[0], datas[1], datas[4])
+			stmt2.Exec(datas[2], datas[3], datas[4])
 			tx.Commit()
 			tx2.Commit()
 		}
