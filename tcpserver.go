@@ -7,7 +7,6 @@ import (
 	"log"
 	"net"
 	"strings"
-	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
