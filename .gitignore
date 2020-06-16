@@ -46,8 +46,8 @@ src/contents/pm_data/logo.png
 # vendor/
 
 ### Go Patch ###
-/vendor/
-/Godeps/
+go.mod
+go.sum
 
 # End of https://www.toptal.com/developers/gitignore/api/go
 
