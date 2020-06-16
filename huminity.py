@@ -1,19 +1,12 @@
-import time
-import Adafruit_DHT
-import dbconfig as db
+import time, Adafruit_DHT ,socket
 DATAPATH = "/home/pi/IOT-Airsensor-server-web/LCD/tmp2.txt"
 sensor = Adafruit_DHT.DHT11
 pin = 4
-
-def savedata(values):
-    with open(DATAPATH, "w+") as F:
-        F.write(str(values['hum'])+" "+str(values['tem'])+" "+time.strftime("%Y.%m.%d %H:%M"))
 
 def process_data():
     sumh ,sumt = 0.0,0.0
     for i in range(30):
         h,t = Adafruit_DHT.read_retry(sensor, pin)
-        print 'huminity : {0} temperature : {1}'.format(h,t)
         sumh += h
         sumt += t
         time.sleep(1)
@@ -21,16 +14,24 @@ def process_data():
     sumt = round(sumt/30,2)
     return sumh,sumt
 
-def db_insert(hum, tem):
-    conn = db.conn_db('humdata.db')
+def data_insert(hum, tem):
     jsonrow = {'hum': hum, 'tem':tem,'time':time.strftime("%Y.%m.%d %H:%M")}
     savedata(jsonrow)
-    db.insert_hum_db(conn, **jsonrow)
-    conn.close()
-    print("db insert",hum,tem)
+
+
+def savedata(values):
+    data = str(values['hum'])+" "+str(values['tem'])+" "+time.strftime("%Y.%m.%d %H:%M")
+    with open(DATAPATH, "w+") as F:
+        F.write(data)
+    with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as S:
+        S.connect(('algora.iptime.org',30122))
+        time.sleep(1)
+        S.sendall(data.encode())
+        resp = S.recv(64)
+        print(resp)
 
 if __name__ == "__main__":
     while True:
         hum,tem = process_data()
-        db_insert(hum,tem)
+        data_insert(hum,tem)
         time.sleep(30)

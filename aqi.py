@@ -1,8 +1,7 @@
 #!/usr/bin/python -u
 # coding=utf-8
 from __future__ import print_function
-import serial, struct, sys, time , subprocess,json
-import dbconfig as db
+import serial, struct, sys, time , subprocess,json,socket
 DEBUG = 0
 CMD_MODE = 2
 CMD_QUERY_DATA = 4
@@ -22,10 +21,6 @@ ser.open()
 ser.flushInput()
 
 byte, data = 0, ""
-
-def savedata(values):
-    with open(DATAPATH, "w+") as F:
-        F.write(str(values[1])+" "+str(values[0])+" "+time.strftime("%Y.%m.%d %H:%M"))
 
 def dump(d, prefix=''):
     print(prefix + ' '.join(x.encode('hex') for x in d))
@@ -97,6 +92,18 @@ def cmd_set_id(id):
     ser.write(construct_command(CMD_DEVICE_ID, [0]*10+[id_l, id_h]))
     read_response()
 
+
+def savedata(values):
+    data = str(values[1])+" "+str(values[0])+" "+time.strftime("%Y.%m.%d %H:%M")
+    with open(DATAPATH, "w+") as F:
+        F.write(data)
+    with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as S:
+        S.connect(('algora.iptime.org',30122))
+        time.sleep(1)
+        S.sendall(data.encode())
+        resp = S.recv(64)
+        print(resp)
+
 if __name__ == "__main__":
     cmd_set_sleep(0)
     cmd_firmware_ver()
@@ -112,10 +119,7 @@ if __name__ == "__main__":
             if values is not None and len(values) == 2:
               time.sleep(2)
         eval_values = list(map(lambda x : x / 15 , eval_values))
-        conn = db.conn_db('pmdata.db')
         jsonrow = {'pm25': eval_values[0], 'pm10': eval_values[1], 'time': time.strftime("%Y.%m.%d %H:%M")}
         savedata(eval_values)
-        db.insert_db(conn, **jsonrow)
-        conn.close()
         cmd_set_sleep(1)
         time.sleep(30)
