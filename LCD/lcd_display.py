@@ -12,7 +12,7 @@ while 1 :
     strs = []
     for i in range(4) :
         strs.append(Datatype[i] + values[i] + PrefixList[i])
-    for i in range(15):
+    for i in range(10):
         mylcd.lcd_display_string(strs[0],1)
         mylcd.lcd_display_string(strs[1],2)
         sleep(2)

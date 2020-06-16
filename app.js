@@ -65,6 +65,6 @@ app.get('/tem',(req, res)=>{
 });
 
 
-app.listen(80, ()=>{
+app.listen(30080, ()=>{
 	console.log("start server");
 });
