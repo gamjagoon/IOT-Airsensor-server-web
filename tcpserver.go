@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"io"
 	"log"
 	"net"
 )
@@ -8,7 +10,8 @@ import (
 func main() {
 	l, err := net.Listen("tcp", "30122")
 	if nil != err {
-		log.Fatalf("fial to bind address", err)
+		fmt.Print("fial to bind address", err)
+		return 
 	}
 	defer l.Close()
 
