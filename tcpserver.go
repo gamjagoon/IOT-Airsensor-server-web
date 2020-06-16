@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"strings"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -79,8 +80,9 @@ func ConnHandler(conn net.Conn) {
 			fmt.Println(data)
 			conn.Write(ok)
 			datas := strings.Split(data, " ")
-			stmt.Exec(datas[0], datas[1], datas[4])
-			stmt2.Exec(datas[2], datas[3], datas[4])
+			Time := datas[4]+ " " + datas[5]
+			stmt.Exec(datas[0], datas[1], Time)
+			stmt2.Exec(datas[2], datas[3], Time)
 			tx.Commit()
 			tx2.Commit()
 		}
