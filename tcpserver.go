@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	l, err := net.Listen("algora.iptime.org", "30122")
+	l, err := net.Listen("tcp", ":30122")
 	if nil != err {
 		fmt.Print("fial to bind address", err)
 		return 
