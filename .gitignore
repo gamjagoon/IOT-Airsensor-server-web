@@ -15,13 +15,8 @@ node_modules
 bower_components
 db/*.sqlite3
 *.sublime*
-tmp.*
-psd
-thumb
-sketch
 build
 *.txt
-aqi.json
 
 # End of https://www.gitignore.io/api/react
 
@@ -76,7 +71,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
