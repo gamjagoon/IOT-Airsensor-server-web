@@ -127,8 +127,8 @@ if __name__ == "__main__":
             if values is not None and len(values) == 2:
               time.sleep(2)
         eval_values = list(map(lambda x : round(x / 15,2) , eval_values))
-        sumh = round(sumh/30,2)
-        sumt = round(sumt/30,2)
+        sumh = round(sumh/15,2)
+        sumt = round(sumt/15,2)
         savedata(eval_values,sumh,sumt)
         cmd_set_sleep(1)
         time.sleep(30)
