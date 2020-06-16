@@ -10,4 +10,8 @@ def run():
         print(resp)
 
 if __name__ == "__main__":
-    run()
+    while True :
+        try:
+            run()
+        finally:
+            pass
