@@ -28,6 +28,7 @@ func main() {
 
 func ConnHandler(conn net.Conn) {
 	recvBuf := make([]byte, 256)
+	ok := []byte{'o','k'}
 	for {
 			n, err := conn.Read(recvBuf)
 			if nil != err {
@@ -40,7 +41,8 @@ func ConnHandler(conn net.Conn) {
 			}
 			if 0 < n {
 					data := recvBuf[:n]
-					log.Println(string(data))
+					fmt.Println(string(data))
+					conn.Write(ok)
 			}
 	}
 }
