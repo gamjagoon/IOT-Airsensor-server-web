@@ -17,6 +17,7 @@ db/*.sqlite3
 *.sublime*
 build
 *.txt
+test.go
 
 # End of https://www.gitignore.io/api/react
 

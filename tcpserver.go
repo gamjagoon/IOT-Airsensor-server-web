@@ -1,19 +1,45 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"io"
 	"log"
 	"net"
+	"strings"
+
+	_ "github.com/mattn/go-sqlite3"
 )
+
+func errHandler(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	l, err := net.Listen("tcp", ":30122")
 	if nil != err {
 		fmt.Print("fial to bind address", err)
-		return 
+		return
 	}
 	defer l.Close()
+	db, err := sql.Open("sqlite3", "./pmdata.db")
+	errHandler(err)
+	defer db.Close()
+	db2, err := sql.Open("sqlite3", "./humdata.db")
+	errHandler(err)
+	defer db2.Close()
+	tx, err := db.Begin()
+	errHandler(err)
+	tx2, err := db2.Begin()
+	errHandler(err)
+	stmt, err := tx.Prepare("insert into data(pm10,pm25,time) values (?,?,?)")
+	errHandler(err)
+	defer stmt.Close()
+	stmt2, err := tx2.Prepare("insert into hum(hum,tem,time) values (?,?,?)")
+	errHandler(err)
+	defer stmt2.Close()
 
 	for {
 		conn, err := l.Accept()
@@ -22,27 +48,35 @@ func main() {
 			continue
 		}
 
-		go ConnHandler(conn)
+		go ConnHandler(conn, tx, tx2, stmt, stmt2)
 	}
 }
 
-func ConnHandler(conn net.Conn) {
+// ConnHandler input db receved data
+func ConnHandler(conn net.Conn, tx *sql.Tx, tx2 *sql.Tx, st *sql.Stmt, st2 *sql.Stmt) {
 	recvBuf := make([]byte, 256)
-	ok := []byte{'o','k'}
+	ok := []byte{'o', 'k'}
 	for {
-			n, err := conn.Read(recvBuf)
-			if nil != err {
-					if io.EOF == err {
-							log.Printf("connection is closed from client; %v", conn.RemoteAddr().String())
-							return
-					}
-					log.Printf("fail to receive data; err: %v", err)
-					return
+		n, err := conn.Read(recvBuf)
+		if nil != err {
+			if io.EOF == err {
+				log.Printf("connection is closed from client; %v", conn.RemoteAddr().String())
+				return
 			}
-			if 0 < n {
-					data := recvBuf[:n]
-					fmt.Println(string(data))
-					conn.Write(ok)
-			}
+			log.Printf("fail to receive data; err: %v", err)
+			return
+		}
+		if 0 < n {
+			// pm10 pm25 hum tem time
+			recv := recvBuf[:n]
+			data := string(recv)
+			fmt.Println(data)
+			conn.Write(ok)
+			datas := strings.Split(data, " ")
+			st.Exec(datas[0], datas[1], datas[4])
+			st2.Exec(datas[2], datas[3], datas[4])
+			tx.Commit()
+			tx2.Commit()
+		}
 	}
 }
