@@ -97,12 +97,12 @@ def savedata(values):
     data = str(values[1])+" "+str(values[0])+" "+time.strftime("%Y.%m.%d %H:%M")
     with open(DATAPATH, "w+") as F:
         F.write(data)
-    with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as S:
-        S.connect(('algora.iptime.org',30122))
-        time.sleep(1)
-        S.sendall(data.encode())
-        resp = S.recv(64)
-        print(resp)
+    client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    client_socket.connect(('algora.iptime.org',30122))
+    client_socket.sendall(data.encode())
+    resp = client_socket.recv(64)
+    print(resp)
+    client_socket.close()
 
 if __name__ == "__main__":
     cmd_set_sleep(0)
