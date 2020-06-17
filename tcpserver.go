@@ -19,7 +19,6 @@ func errHandler(err error) {
 
 var (
 	db,db2 *sql.DB
-	tx, tx2 *sql.Tx
 )
 
 func main() {
@@ -32,10 +31,6 @@ func main() {
 	db, err = sql.Open("sqlite3", "./pmdata.db")
 	errHandler(err)
 	db2, err = sql.Open("sqlite3", "./humdata.db")
-	errHandler(err)
-	tx, err = db.Begin()
-	errHandler(err)
-	tx2, err = db2.Begin()
 	errHandler(err)
 
 	for {
@@ -73,13 +68,9 @@ func ConnHandler(conn net.Conn) {
 			conn.Write(ok)
 			datas := strings.Split(data, " ")
 			Time := datas[4]+ " " + datas[5]
-			_, err := tx.Exec("insert into data(pm10,pm25,time) values (?,?,?)",datas[0], datas[1], Time)
+			_, err := db.Exec("insert into data(pm10,pm25,time) values (?,?,?)",datas[0], datas[1], Time)
 			errHandler(err)
-			_, err = tx2.Exec("insert into hum(hum,tem,time) values (?,?,?)",datas[2], datas[3], Time)
-			errHandler(err)
-			err =tx.Commit()
-			errHandler(err)
-			err = tx2.Commit()
+			_, err =db2.Exec("insert into hum(hum,tem,time) values (?,?,?)",datas[2], datas[3], Time)
 			errHandler(err)
 		}
 	}
