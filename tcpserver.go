@@ -30,8 +30,10 @@ func main() {
 	defer l.Close()
 	db, err = sql.Open("sqlite3", "./pmdata.db")
 	errHandler(err)
+	defer db.Close()
 	db2, err = sql.Open("sqlite3", "./humdata.db")
 	errHandler(err)
+	defer db2.Close()
 
 	for {
 		conn, err := l.Accept()
@@ -42,8 +44,6 @@ func main() {
 
 		go ConnHandler(conn)
 	}
-	db.Close()
-	db2.Close()
 }
 
 // ConnHandler input db receved data
