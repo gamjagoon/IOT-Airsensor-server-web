@@ -32,20 +32,16 @@ func main() {
 	defer l.Close()
 	db, err = sql.Open("sqlite3", "./pmdata.db")
 	errHandler(err)
-	defer db.Close()
 	db2, err = sql.Open("sqlite3", "./humdata.db")
 	errHandler(err)
-	defer db2.Close()
 	tx, err = db.Begin()
 	errHandler(err)
 	tx2, err = db2.Begin()
 	errHandler(err)
 	stmt, err = tx.Prepare("insert into data(pm10,pm25,time) values (?,?,?)")
 	errHandler(err)
-	defer stmt.Close()
 	stmt2, err = tx2.Prepare("insert into hum(hum,tem,time) values (?,?,?)")
 	errHandler(err)
-	defer stmt2.Close()
 
 	for {
 		conn, err := l.Accept()
@@ -56,6 +52,10 @@ func main() {
 
 		go ConnHandler(conn)
 	}
+	db.Close()
+	db2.Close()
+	stmt.Close()
+	stmt2.Close()
 }
 
 // ConnHandler input db receved data

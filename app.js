@@ -52,7 +52,6 @@ app.get('/tem',(req, res)=>{
   let tem = new Array(60);
   let time = new Array(60);
   rows = rows.reverse();
-  rows2 = rows2.reverse();
   for(let i = 0; i < 60; i++){
     hum[i] = rows[i].hum.toFixed(3);
     tem[i] = rows[i].tem.toFixed(3);

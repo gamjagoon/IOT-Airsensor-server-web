@@ -1,7 +1,7 @@
 {
-  "name": "IOT-Airsenser-server-web",
+  "name": "IOT-Airsensor-server-web",
   "version": "1.0.0",
-  "description": "Fine-air senser and serve using website ============= ## summary ### enlish ### 1. Hardware  * main server : raspberryPi 3B+  * fine-air sensor : SDS011  ### 2. Software   * front-end : react   * back-end      - server : nodejs     - sensing : python script     - DB : sqlite3     - data processing : python3 - matplotlib  ### Korean ### 1. 하드웨어  * 메인 서버 : raspberryPi 3B+  * 미세먼지 센서 : SDS011  ### 2. 소프트웨어   * 프론트-앤드 : react   * 백-앤드     - 서버 : nodejs     - 센서제어 : python script     - 데이터 베이스 : sqlite3     - 데이터 처리 : python3 - matplotlib  * * * #### I haven't studied about web, server and DB so I should do studying those and setting up development environment #### begin ~ 2020/05/11 : finished setting up sensor and DB",
+  "description": "Fine-air sensor and serve using website ============= # summary ## English ### 1. Hardware  * main server : raspberryPi 3B+  * fine-air sensor : SDS011  ### 2. Software   * front-end : ejs   * back-end      - server : nodejs(express)     - sensing : python script     - DB : sqlite3     - data processing : javascript - char.js ## Korean ### 1. 하드웨어  * 메인 서버 : raspberryPi 3B+  * 미세먼지 센서 : SDS011  ### 2. 소프트웨어   * 프론트-앤드 : ejs   * 백-앤드     - 서버 : nodejs(express)     - 센서제어 : python script     - 데이터 베이스 : sqlite3     - 데이터 처리 : javascript - char.js * * * #### begin I haven't studied about web, server and DB so I should do studying those and setting up development environment **~ 2020/05/11 : finished setting up sensor and DB**",
   "main": "app.js",
   "directories": {
     "lib": "lib"
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gamjagoon/IOT-Airsenser-server-web.git"
+    "url": "git+https://github.com/gamjagoon/IOT-Airsensor-server-web.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gamjagoon/IOT-Airsenser-server-web/issues"
+    "url": "https://github.com/gamjagoon/IOT-Airsensor-server-web/issues"
   },
-  "homepage": "https://github.com/gamjagoon/IOT-Airsenser-server-web#readme",
+  "homepage": "https://github.com/gamjagoon/IOT-Airsensor-server-web#readme",
   "dependencies": {
     "better-sqlite3": "^7.0.1",
     "ejs": "^3.1.3",
