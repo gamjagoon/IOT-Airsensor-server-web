@@ -20,7 +20,6 @@ func errHandler(err error) {
 var (
 	db,db2 *sql.DB
 	tx, tx2 *sql.Tx
-	stmt, stmt2 *sql.Stmt
 )
 
 func main() {
@@ -38,10 +37,6 @@ func main() {
 	errHandler(err)
 	tx2, err = db2.Begin()
 	errHandler(err)
-	stmt, err = tx.Prepare("insert into data(pm10,pm25,time) values (?,?,?)")
-	errHandler(err)
-	stmt2, err = tx2.Prepare("insert into hum(hum,tem,time) values (?,?,?)")
-	errHandler(err)
 
 	for {
 		conn, err := l.Accept()
@@ -54,8 +49,6 @@ func main() {
 	}
 	db.Close()
 	db2.Close()
-	stmt.Close()
-	stmt2.Close()
 }
 
 // ConnHandler input db receved data
@@ -80,10 +73,14 @@ func ConnHandler(conn net.Conn) {
 			conn.Write(ok)
 			datas := strings.Split(data, " ")
 			Time := datas[4]+ " " + datas[5]
-			stmt.Exec(datas[0], datas[1], Time)
-			stmt2.Exec(datas[2], datas[3], Time)
-			tx.Commit()
-			tx2.Commit()
+			_, err := tx.Exec("insert into data(pm10,pm25,time) values (?,?,?)",datas[0], datas[1], Time)
+			errHandler(err)
+			_, err = tx2.Exec("insert into hum(hum,tem,time) values (?,?,?)",datas[2], datas[3], Time)
+			errHandler(err)
+			err =tx.Commit()
+			errHandler(err)
+			err = tx2.Commit()
+			errHandler(err)
 		}
 	}
 }
